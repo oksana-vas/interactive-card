@@ -11,32 +11,32 @@
 @import "./components/Success/Success.scss";
 
 .App {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
-	height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
 
-	background: transparent url("./images/bg-main-mobile.png") no-repeat;
+  background: transparent url("./images/bg-main-mobile.png") no-repeat;
   background-size: 100% 240px;
 
-	@include onDesktop {
-		flex-direction: row;
-		justify-content: space-evenly;
-		align-items: center;
+  @include onDesktop {
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
 
-		background: transparent url("./images/bg-main-desktop.png") no-repeat;
-  	background-size: 30% 100%;
-	}
+    background: transparent url("./images/bg-main-desktop.png") no-repeat;
+    background-size: 30% 100%;
+  }
 
-	&__form {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		padding: 0 24px;
-		width: 100%;
-		max-width: 392px;
-		flex: 1;
-	}
+  &__form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 24px;
+    width: 100%;
+    max-width: 392px;
+    flex: 1;
+  }
 }
 

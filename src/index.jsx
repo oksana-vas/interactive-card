@@ -4,5 +4,5 @@ import { App } from './App';
 const element = document.querySelector('#root');
 
 createRoot(element).render(
-	<App />
+  <App />
 );

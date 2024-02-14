@@ -1,53 +1,54 @@
 @mixin onDesktop {
-	@media (min-width: 1200px) {
-		@content;
-	}
+  @media (min-width: 1200px) {
+    @content;
+  }
 }
 
 @mixin textStyleDesktop {
-	font-size: 14px;
-	letter-spacing: 2px;
+  font-size: 14px;
+  letter-spacing: 2px;
 }
 
 @mixin smallTextStyle {
-	font-size: 9px;
-	letter-spacing: 1.3px;
-	color: $white;
+  font-size: 9px;
+  letter-spacing: 1.3px;
+  color: $white;
 }
 
 @mixin buttonStyle {
-	height: 53px;
-	outline: none;
-	background-color: $dark-purple;
-	border: 1px solid transparent;
-	border-radius: 8px;
-	color: $white;
-	padding: 15px;
-	width: 100%;
-	cursor: pointer;
+  height: 53px;
+  outline: none;
+  background-color: $dark-purple;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: $white;
+	font-size: 18px;
+  padding: 15px;
+  width: 100%;
+  cursor: pointer;
 
-	&:hover {
-		background-color: $white;
-		border-color: $dark-purple;
-		color: $dark-purple;
-	}
+  &:hover {
+    background-color: $white;
+    border-color: $dark-purple;
+    color: $dark-purple;
+  }
 }
 
 @mixin cardStyle {
-	height: 157px;
-	width: 286px;
+  height: 157px;
+  width: 286px;
 
-	background-size: cover;
-	background-repeat: no-repeat;
+  background-size: cover;
+  background-repeat: no-repeat;
 
-	@include onDesktop {
-		height: 245px;
-		width: 447px;
-	}
+  @include onDesktop {
+    height: 245px;
+    width: 447px;
+  }
 }
 
 @mixin inputContainerStyle {
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }

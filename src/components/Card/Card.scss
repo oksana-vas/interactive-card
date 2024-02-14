@@ -2,131 +2,131 @@
 @import "../../utils/_variables";
 
 .Card {
-	display: flex;
-	flex-direction: column;
-	padding: 32px 16px 0;
-	width: 375px;
-	margin-bottom: min(100px);
+  display: flex;
+  flex-direction: column;
+  padding: 32px 16px 0;
+  width: 375px;
+  margin-bottom: min(100px);
 
-	@include onDesktop {
-		padding: 0;
-		margin: 0;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		gap: 37px;
-		width: 541px;
-		position: relative;
-	}
+  @include onDesktop {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 37px;
+    width: 541px;
+    position: relative;
+  }
 
-	&__front {
-		@include cardStyle;
+  &__front {
+    @include cardStyle;
 
-		background-image: url(../../images/bg-card-front.png);
+    background-image: url(../../images/bg-card-front.png);
 
-		position: absolute;
-		top: 121px;
+    position: absolute;
+    top: 121px;
 
-		z-index: 1;
+    z-index: 1;
 
-		@include onDesktop {
-			position: relative;
-			top: 0;
-			align-self: flex-start;
-		}
-	}
+    @include onDesktop {
+      position: relative;
+      top: 0;
+      align-self: flex-start;
+    }
+  }
 
-	&__logo {
-		display: block;
-		background-image: url(../../images/card-logo.svg);
-		background-repeat: no-repeat;
-		background-size: cover;
-		height: 30px;
-		width: 54px;
+  &__logo {
+    display: block;
+    background-image: url(../../images/card-logo.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 30px;
+    width: 54px;
 
-		position: absolute;
-		top: 19px;
-		left: 19px;
+    position: absolute;
+    top: 19px;
+    left: 19px;
 
-		@include onDesktop {
-			height: 47px;
-			width: 84px;
+    @include onDesktop {
+      height: 47px;
+      width: 84px;
 
-			top: 28px;
-			left: $left-card-padding-desktop;
-		}
-	}
+      top: 28px;
+      left: $left-card-padding-desktop;
+    }
+  }
 
-	&__back {
-		@include cardStyle;
+  &__back {
+    @include cardStyle;
 
-		background-image: url(../../images/bg-card-back.png);
+    background-image: url(../../images/bg-card-back.png);
 
-		align-self: flex-end;
-		position: relative;
-	}
+    align-self: flex-end;
+    position: relative;
+  }
 
-	&__cvc {
-		@include smallTextStyle;
+  &__cvc {
+    @include smallTextStyle;
 
-		position: absolute;
-		right: 35px;
-		top: 70px;
+    position: absolute;
+    right: 35px;
+    top: 70px;
 
-		@include onDesktop {
-			@include textStyleDesktop;
+    @include onDesktop {
+      @include textStyleDesktop;
 
-			right: 57px;
-			top: 111px;
-		}
-	}
+      right: 57px;
+      top: 111px;
+    }
+  }
 
-	&__number {
-		font-size: 18px;
-		letter-spacing: 2.2px;
-		color: $white;
+  &__number {
+    font-size: 18px;
+    letter-spacing: 2.2px;
+    color: $white;
 
-		position: absolute;
-		left: 19px;
-		top: 85px;
+    position: absolute;
+    left: 19px;
+    top: 85px;
 
-		@include onDesktop {
-			font-size: 28px;
-			letter-spacing: 3.4px;
+    @include onDesktop {
+      font-size: 28px;
+      letter-spacing: 3.4px;
 
-			left: $left-card-padding-desktop;
-			top: 139px;
-		}
-	}
+      left: $left-card-padding-desktop;
+      top: 139px;
+    }
+  }
 
-	&__name {
-		@include smallTextStyle;
+  &__name {
+    @include smallTextStyle;
 
-		text-transform: uppercase;
-		position: absolute;
-		left: 19px;
-		top: 125px;
+    text-transform: uppercase;
+    position: absolute;
+    left: 19px;
+    top: 125px;
 
-		@include onDesktop {
-			@include textStyleDesktop;
+    @include onDesktop {
+      @include textStyleDesktop;
 
-			left: $left-card-padding-desktop;
-			top: 200px;
-		}
-	}
+      left: $left-card-padding-desktop;
+      top: 200px;
+    }
+  }
 
-	&__date {
-		@include smallTextStyle;
+  &__date {
+    @include smallTextStyle;
 
-		position: absolute;
-		right: 19px;
-		top: 125px;
+    position: absolute;
+    right: 19px;
+    top: 125px;
 
-		@include onDesktop {
-			@include textStyleDesktop;
+    @include onDesktop {
+      @include textStyleDesktop;
 
-			right: $left-card-padding-desktop;
-			top: 200px;
-		}
-	}
+      right: $left-card-padding-desktop;
+      top: 200px;
+    }
+  }
 }

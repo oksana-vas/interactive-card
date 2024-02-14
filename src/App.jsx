@@ -1,212 +1,208 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Card } from './components/Card/Card';
 import { Success } from './components/Success/Success';
 import { Form } from './components/Form/Form';
+import { 
+  MIN_MONTH, 
+  MAX_MONTH, 
+  MIN_CARD_LENGTH, 
+  numberRegex
+} from './constants/constants';
 import './App.scss';
 
+const initialCard = {
+  name: '',
+  number: '',
+  month: '',
+  year: '',
+  cvc: '',
+};
+
+const initialErrors = {
+  name: {
+    isEmpty: false,
+  },
+  number: {
+    isEmpty: false,
+    isInvalid: false,
+  },
+  month: {
+    isEmpty: false,
+    isInvalid: false,
+  },
+  year: {
+    isEmpty: false,
+    isInvalid: false,
+  },
+  cvc: {
+    isEmpty: false,
+    isInvalid: false,
+  },
+};
+
 export const App = () => {
-	const [cvc, setCvc] = useState('');
-	const [cardNumber, setCardNumber] = useState('');
-	const [name, setName] = useState('');
-	const [month, setMonth] = useState('');
-	const [year, setYear] = useState('');
+  const [card, setCard] = useState(initialCard);
+  const [errors, setErrors] = useState(initialErrors);
 
-	const [hasEmptyName, setHasEmptyName] = useState(false);
-	const [hasEmptyCardNumber, setHasEmptyCardNumber] = useState(false);
-	const [hasEmptyMonth, setHasEmptyMonth] = useState(false);
-	const [hasEmptyYear, setHasEmptyYear] = useState(false);
-	const [hasEmptyCvc, setHasEmptyCvc] = useState(false);
+  const [formattedNumber, setFormattedNumber] = useState('');
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false); 
 
-	const [hasInvalidCardNumber, setHasInvalidCardNumber] = useState(false);
-	const [hasInvalidMonth, setHasInvalidMonth] = useState(false);
-	const [hasInvalidYear, setHasInvalidYear] = useState(false);
-	const [hasInvalidCvc, setHasInvalidCvc] = useState(false);
+  const {
+    name,
+    number,
+    month,
+    year,
+    cvc,
+  } = card;
 
-	const [formattedCardNumber, setFormattedCardNumber] = useState('');
-	const [isFormSubmitted, setIsFormSubmitted] = useState(false); 
+  const isInputValid = (inputValue, inputType) => {
+    switch (inputType) {
+      case 'number': {
+        return numberRegex.test(inputValue) && inputValue.length >= MIN_CARD_LENGTH;
+      }
+      case 'month': {
+        return numberRegex.test(inputValue) && ((+inputValue >= MIN_MONTH) && (+inputValue <= MAX_MONTH));
+      }
 
-	const MIN_MONTH = 1;
-	const MAX_MONTH = 12;
-	const MIN_CARD_LENGTH = 13;
+      case 'year': {
+        const currentYear = new Date().getFullYear() % 100;
 
-	const emptyInputMessage = 'Can\'t be blank';
-	const wrongFormatMessage = 'Wrong format, valid numbers only';
+        return numberRegex.test(inputValue) && +inputValue >= currentYear;
+      }
 
-	const numberRegex = /^\d+$/;
+      case 'cvc': {
+        return numberRegex.test(inputValue) && inputValue.length === 3;
+      }
+    }
+  };
 
-	const isInputValid = (inputValue, inputType) => {
-		switch (inputType) {
-			case 'number': {
-				return numberRegex.test(inputValue) && inputValue.length >= MIN_CARD_LENGTH;
-			}
-			case 'month': {
-				return numberRegex.test(inputValue) && ((+inputValue >= MIN_MONTH) && (+inputValue <= MAX_MONTH));
-			}
+  const getFormattedNumber = (numbers) => {
+    const arrayNumber = numbers.replace(/\s/g, "");
+    const chunkSize = 4;
 
-			case 'year': {
-				const currentYear = new Date().getFullYear() % 100;
+    const newNumbers = splitNumbers(arrayNumber, chunkSize);
 
-				return numberRegex.test(inputValue) && +inputValue >= currentYear;
-			}
+    setFormattedNumber(newNumbers.join(' '));
+  };
 
-			case 'cvc': {
-				return numberRegex.test(inputValue) && inputValue.length === 3;
-			}
-		}
-	};
+  const splitNumbers = (currentArray, chunkSize) => {
+      return Array.from({ length: Math.ceil(currentArray.length / chunkSize) }, (_, index) =>
+      currentArray.slice(index * chunkSize, index * chunkSize + chunkSize)
+    );
+  };
 
-	const getFormattedCardNumber = (numbers) => {
-		const arrayNumber = numbers.replace(/\s/g, "");
-  	const chunkSize = 4;
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
-		const newNumbers = splitNumbers(arrayNumber, chunkSize);
+    const trimmedName = name.trim();
+    const trimmedNumber = number.trim();
+    const trimmedMonth = month.trim();
+    const trimmedYear = year.trim();
+    const trimmedCvc = cvc.trim();
 
-		setFormattedCardNumber(newNumbers.join(' '));
-	};
+    const editedNumber = trimmedNumber.replaceAll(' ', '');
 
-	const splitNumbers = (currentArray, chunkSize) => {
-			return Array.from({ length: Math.ceil(currentArray.length / chunkSize) }, (_, index) =>
-			currentArray.slice(index * chunkSize, index * chunkSize + chunkSize)
-		);
-	};
+    const isNumberValid = isInputValid(editedNumber, 'number');
+    const isMonthValid = isInputValid(trimmedMonth, 'month');
+    const isYearValid = isInputValid(trimmedYear, 'year');
+    const isCvcValid = isInputValid(trimmedCvc, 'cvc');
 
-	const handleSubmit = (event) => {
-		event.preventDefault();
+    setErrors({
+      name: {
+        isEmpty: !trimmedName,
+      },
+      number: {
+        isEmpty: !trimmedNumber,
+        isInvalid: !isNumberValid,
+      },
+      month: {
+        isEmpty: !trimmedMonth,
+        isInvalid: !isMonthValid,
+      },
+      year: {
+        isEmpty: !trimmedYear,
+        isInvalid: !isYearValid,
+      },
+      cvc: {
+        isEmpty: !trimmedCvc,
+        isInvalid: !isCvcValid,
+      },
+    })
 
-		const formattedName = name.trim();
-		const formattedNumber = cardNumber.trim();
-		const formattedMonth = month.trim();
-		const formattedYear = year.trim();
-		const formattedCvc = cvc.trim();
+    const hasEmptyInput = !trimmedName 
+                        || !trimmedNumber 
+                        || !trimmedMonth 
+                        || !trimmedYear 
+                        || !trimmedCvc;
 
-		setHasEmptyName(!formattedName);
-		setHasEmptyCardNumber(!formattedNumber);
-		setHasEmptyMonth(!formattedMonth);
-		setHasEmptyYear(!formattedYear);
-		setHasEmptyCvc(!formattedCvc);
+    const hasInvalidInput = !isNumberValid 
+                          || !isMonthValid 
+                          || !isYearValid
+                          || !isCvcValid;
 
-		const hasEmptyInput = !formattedName 
-												|| !formattedNumber 
-												|| !formattedMonth 
-												|| !formattedYear 
-												|| !formattedCvc;
+    if ( hasEmptyInput || hasInvalidInput) {
+      return;
+    }
 
-		if (hasEmptyInput) {
-			return;
-		}
+    setIsFormSubmitted(true);
+  };
 
-		const isCardNumberValid = isInputValid(formattedNumber, 'number');
-		const isMonthValid = isInputValid(formattedMonth, 'month');
-		const isYearValid = isInputValid(formattedYear, 'year');
-		const isCvcValid = isInputValid(formattedCvc, 'cvc');
+  const handleInputChange = (event) => {
+    const { name: field, value } = event.target;
 
-		setHasInvalidCardNumber(!isCardNumberValid);
-		setHasInvalidMonth(!isMonthValid);
-		setHasInvalidYear(!isYearValid);
-		setHasInvalidCvc(!isCvcValid);
+    setCard(current => ({ ...current, [field]: value }));
+    setErrors(current => {
+      if (name.isInvalid) {
+        return {
+          ...current,
+          [field]: {
+            isEmpty: false,
+            isInvalid: false,
+          } 
+        }
+      }
 
-		const hasInvalidInput = !isCardNumberValid 
-													|| !isMonthValid 
-													|| !isYearValid
-													|| !isCvcValid;
+      return {
+        ...current,
+        [field]: {
+          isEmpty: false,
+        }
+      }
+    });
 
-		if (hasInvalidInput) {
-			return;
-		}
+    if (field === 'number') {
+      getFormattedNumber(value);
+    }
+  };
 
-		setIsFormSubmitted(true);
-	};
-	
-	const handleInputChange = (event, value) => {
-		switch (value) {
-			case 'name': {
-				setHasEmptyName(false);
-				setName(event.target.value);
-				break;
-			}
+  const handleFormClean = () => {
+    setCard(initialCard);
+    setFormattedNumber('');
+    setIsFormSubmitted(false);
+  };
 
-			case 'number': {
-				setHasEmptyCardNumber(false);
-				setHasInvalidCardNumber(false);
-				setCardNumber(event.target.value);
+  return (
+    <main className="App">
+      <section className="App__card">
+        <Card 
+          formattedNumber={formattedNumber}
+          card={card}
+        />
+      </section>
 
-				getFormattedCardNumber(event.target.value);
-				break;
-			}
-
-			case 'month': {
-				setHasEmptyMonth(false);
-				setHasInvalidMonth(false);
-				setMonth(event.target.value);
-				break;
-			}
-
-			case 'year': {
-				setHasEmptyYear(false);
-				setHasInvalidYear(false);
-				setYear(event.target.value);
-				break;
-			}
-
-			case 'cvc': {
-				setHasEmptyCvc(false);
-				setHasInvalidCvc(false);
-				setCvc(event.target.value);
-				break;
-			}
-		}
-	};
-
-	const handleFormClean = () => {
-		setName('');
-		setCardNumber('');
-		setMonth('');
-		setYear('');
-		setCvc('');
-		setFormattedCardNumber('');
-
-		setIsFormSubmitted(false);
-	};
-
-	return (
-		<main className="App">
-			<section className="App__card">
-				<Card 
-					formattedCardNumber={formattedCardNumber}
-					name={name}
-					month={month}
-					year={year}
-					cvc={cvc}
-				/>
-			</section>
-
-			<section className="App__form">
-				{isFormSubmitted ? (
-					<Success handleFormClean={handleFormClean} />
-				) : (
-					<Form 
-						handleSubmit={handleSubmit}
-						name={name}
-						hasEmptyName={hasEmptyName}
-						emptyInputMessage={emptyInputMessage}
-						wrongFormatMessage={wrongFormatMessage}
-						cardNumber={cardNumber}
-						hasEmptyCardNumber={hasEmptyCardNumber}
-						hasInvalidCardNumber={hasInvalidCardNumber}
-						month={month}
-						hasEmptyMonth={hasEmptyMonth}
-						hasInvalidMonth={hasInvalidMonth}
-						year={year}
-						hasEmptyYear={hasEmptyYear}
-						hasInvalidYear={hasInvalidYear}
-						cvc={cvc}
-						hasEmptyCvc={hasEmptyCvc}
-						hasInvalidCvc={hasInvalidCvc}
-						handleInputChange={handleInputChange}
-						MIN_CARD_LENGTH
-					/>
-				)}
-			</section>
-		</main>
-	);
+      <section className="App__form">
+        {isFormSubmitted ? (
+          <Success handleFormClean={handleFormClean} />
+        ) : (
+          <Form 
+            handleSubmit={handleSubmit}
+            handleInputChange={handleInputChange}
+            formattedNumber={formattedNumber}
+            errors={errors}
+            card={card}
+          />
+        )}
+      </section>
+    </main>
+  );
 };
