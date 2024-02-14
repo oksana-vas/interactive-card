@@ -1,0 +1,38 @@
+@import "../../utils/_variables";
+@import "../../utils/_mixins";
+
+.Success {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	padding-bottom: min(40px);
+
+	&__icon {
+		display: block;
+		height: 80px;
+		width: 80px;
+		background-image: url(../../images/icon-complete.svg);
+		background-size: cover;
+		background-repeat: no-repeat;
+		margin-bottom: 35px;
+	}
+
+	&__title {
+		font-size: 28px;
+		letter-spacing: 3.4px;
+		text-transform: uppercase;
+		margin-bottom: 16px;
+	}
+
+	&__description {
+		color: $grey;
+		font-size: 18px;
+		margin-bottom: 48px;
+	}
+
+	&__button {
+		@include buttonStyle;
+	}
+}

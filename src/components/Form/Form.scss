@@ -1,0 +1,84 @@
+@import "../../utils/_variables";
+@import "../../utils/_mixins";
+
+.Form {
+	@include inputContainerStyle;
+
+	gap: 20px;
+	width: 100%;
+	padding-bottom: min(24px);
+
+	&__item {
+		@include inputContainerStyle;
+	}
+
+	&__input {
+		height: 45px;
+		padding: 11px 16px;
+		outline: none;
+		border: 1px solid $light-grey;
+		border-radius: 8px;
+		cursor: pointer;
+
+		&:hover {
+			border-color: $grey;
+		}
+
+		&:focus {
+			background: linear-gradient($white, $white) padding-box,
+			linear-gradient(to right, $light-purple, $purple) border-box;
+			border: 1px solid transparent;
+			border-radius: 8px;
+		}
+
+		&::placeholder {
+			color: $light-grey;
+			font-size: 18px;
+		}
+
+		&--MMYY {
+			width: 50%;
+		}
+
+		&--error {
+			border: 1px solid $red;
+		}
+	}
+
+	&__label {
+		text-transform: uppercase;
+		color: $dark-purple;
+		letter-spacing: 2px;
+	}
+
+	&__error {
+		font-size: 12px;
+		color: $red;
+	}
+
+	&__date-cvc-container {
+		display: flex;
+		gap: 11px;
+	}
+
+	&__date {
+		display: flex;
+		gap: 8px;
+
+		&-container {
+			@include inputContainerStyle;
+
+			width: 50%;
+		}
+	}
+
+	&__cvc-container {
+		@include inputContainerStyle;
+
+		width: 50%;
+	}
+
+	&__button {
+		@include buttonStyle;
+	}
+}
